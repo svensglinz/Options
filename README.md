@@ -1,5 +1,24 @@
 # Options
 
+## Functionality: 
+
+The following code can price plain vanilla options (European and American) as well as some popular exotic options using different pricing models. 
+
+Plain Vanilla Options can be priced with: 
+  
+  European: 
+  - Black Scholes Model 
+  - Cox Ross Rubinstein Binomial Model 
+  - Monte Carlo Model
+  
+  American: 
+  - Cox Ross Rubinstein Binomial Model 
+  - Monte Carlo Model
+
+  Exotic Options (...list...)
+  - Monte Carlo Model
+
+
 ```
 #initialize Option
 option_1 = Vanilla_Option(S = 100, K = 100, v = 0.3, r = 0.05, t = 1, type = "Call")
