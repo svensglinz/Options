@@ -19,6 +19,16 @@ Plain Vanilla Options can be priced with:
   - Monte Carlo Model
 
 
+The script contains the class *Vanilla_Option* and *Exotic Option*
+
+### Vanilla Options: 
+
+```
+#initialize Option 
+
+Vanilla_Option(S = 100, K = 100, v = 0.3, r = 0.05, t = 1, type = "Call")
+```
+The Class *Vanilla Option* contains the following methods:
 ```
 #initialize Option
 option_1 = Vanilla_Option(S = 100, K = 100, v = 0.3, r = 0.05, t = 1, type = "Call")
