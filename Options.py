@@ -149,17 +149,6 @@ class Option:
             v_guess = v_guess - diff / vega
 
 
-def CRR_Tree(u,d,r,t, nstep, S, div):
-    dt = t/nstep
-    Tree = np.zeros((nstep + 1, nstep + 1))
-    for j in range(nstep + 1):
-        for i in range(j + 1):
-            Tree[i, j] = S * m.pow(d, i) * m.pow(u, j - i)
-    return Tree
-
-def FRA():
-
-
 
 
 
