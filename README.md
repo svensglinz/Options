@@ -24,8 +24,7 @@ Arguments:
 - European = True (default)
 
 ```
-#initialize Option
-Option(S = 100, K = 100, v = 0.3, r = 0.05, t = 1, type = "Call", European = True)
+option = Option(S = 100, K = 100, v = 0.3, r = 0.05, t = 1, type = "Call", European = True)
 ```
 ### Methods: 
 #### price()
