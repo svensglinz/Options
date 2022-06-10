@@ -7,10 +7,9 @@ import pandas as pd
 DESCRIPTION
 """
 
-
 class Option:
 
-    def __init__(self, type, S, K, r, t, div=0, v=None, European=True):
+    def __init__(self, type, K=None, S=None, r=None, t=None, div=0, v=None, European=True):
         self.type = 1 if type == "Call" else -1
         self.K = K
         self.S = S
@@ -106,10 +105,6 @@ class Option:
                 else:
                     return price
 
-    """
-    Theta: Time Decay per Day (1 year =365 Days) 
-    """
-
     def greeks(self, *args):
 
         greeks = {}
@@ -118,18 +113,18 @@ class Option:
 
         if self.type == 1:
             greeks["delta"] = stats.norm.cdf(d1)
-            greeks["rho"] = (self.t * np.exp(-self.r * self.t) * self.K * stats.norm.cdf(d2)) / 100
+            greeks["rho"] = (self.t * np.exp(-self.r * self.t) * self.K * stats.norm.cdf(d2))
             greeks["theta"] = (- self.v / (2 * m.sqrt(self.t)) * self.S * stats.norm.pdf(d1) -
-                               self.r * self.K * m.exp(-self.r * self.t) * stats.norm.cdf(d2)) / 365
+                               self.r * self.K * m.exp(-self.r * self.t) * stats.norm.cdf(d2))
         elif self.type == -1:
             greeks["delta"] = -stats.norm.cdf(-d1)
             greeks["rho"] = (self.t * np.exp(-self.r * self.t) * self.K * stats.norm.cdf(d2) -
-                             (self.t * self.K * m.exp(-self.r * self.t))) / 100
+                             (self.t * self.K * m.exp(-self.r * self.t)))
             greeks["theta"] = (- self.v / (2 * m.sqrt(self.t)) * self.S * stats.norm.pdf(d1) -
                                self.r * self.K * m.exp(-self.r * self.t) * stats.norm.cdf(d2) +
-                               self.r * self.K * m.exp(-self.r * self.t))/ 365
+                               self.r * self.K * m.exp(-self.r * self.t))
 
-        greeks["vega"] = (self.S * stats.norm.pdf(d1) * np.sqrt(self.t)) / 100
+        greeks["vega"] = (self.S * stats.norm.pdf(d1) * np.sqrt(self.t))
         greeks["gamma"] = stats.norm.pdf(d1) / (self.v * self.S * np.sqrt(self.t))
 
         if len(args) == 0:
@@ -147,13 +142,16 @@ class Option:
 
         for i in range(0, max_iter):
             self.v = v_guess
-            vega = self.greeks("vega") * 100
+            vega = self.greeks("vega")
             diff = self.price() - price
             if abs(diff) < precision:
                 return v_guess
             v_guess = v_guess - diff / vega
 
+    def payoff(self, start, stop, K = None, size = 1):
 
-
-
-
+        if K is not None:
+            self.K = K
+        interval = np.arange(start, stop, 1)
+        pay_off = np.maximum((interval-self.K)*self.type,0)
+        return pay_off*size
